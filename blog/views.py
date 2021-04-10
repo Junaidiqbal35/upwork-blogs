@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404
+
+from .forms import SearchForm
 from .models import Post, Category
 from django.core.paginator import Paginator, EmptyPage, \
     PageNotAnInteger
@@ -39,3 +41,19 @@ def post_detail(request, year, month, day, post):
     return render(request,
                   'blog/post/detail.html',
                   {'post': post})
+
+
+def post_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    if 'q' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['q']
+            results = Post.published.filter(title__icontains=query)
+    return render(request,
+                  'blog/post/search.html',
+                  {'form': form,
+                   'query': query,
+                   'results': results})
