@@ -50,8 +50,8 @@
             {% endfor %}
 
                     <ul>
-                        <h2> Feeds </h2>
-                        {% for entry in feed.entries %}
+                        <h2> Hacker News </h2>
+                        {% for entry in feed.entries|slice:":4" %}
                             <li>
                                 <a href="{{entry.link}}">{{entry.title}}</a>
                             </li>
