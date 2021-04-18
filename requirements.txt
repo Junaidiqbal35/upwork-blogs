@@ -1,6 +1,12 @@
 asgiref==3.3.4
 Django==3.2
 django-autoslug==1.9.8
+django-ckeditor==6.0.0
+django-crispy-forms==1.11.2
+django-js-asset==1.2.2
+feedparser==6.0.2
+Markdown==3.3.4
 Pillow==8.2.0
 pytz==2021.1
+sgmllib3k==1.0.0
 sqlparse==0.4.1

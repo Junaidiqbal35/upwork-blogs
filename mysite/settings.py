@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os 
 from pathlib import Path
-from PIL import Image
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -34,6 +33,8 @@ ALLOWED_HOSTS = ["dev.ch-info.org", '*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,8 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'ckeditor',
+    'crispy_forms',
     
 ]
+
+SITE_ID = 1
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

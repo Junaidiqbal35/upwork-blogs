@@ -1,16 +1,16 @@
+from ckeditor.widgets import CKEditorWidget
 from django import forms
-# from .models import *
-# from ckeditor.fields import RichTextField
+from .models import Post
+from ckeditor.fields import RichTextField
 
 
-# class PostForm(forms.ModelForm):
-#     userName = forms.CharField(widget=forms.TextInput(), required=True, max_length=100)
-#     title = forms.CharField(widget=forms.TextInput(), required=True, max_length=100)
-#     content = RichTextField()
-#
-#     class Meta:
-#         model = Post
-#         fields = ('userName', 'title', 'content',)
+class PostForm(forms.ModelForm):
+
+    body = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = Post
+        fields = ('category', 'title', 'body', 'image', 'status')
 
 
 class SearchForm(forms.Form):

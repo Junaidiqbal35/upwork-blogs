@@ -44,8 +44,7 @@ class Post(CommonBaseModel):
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='blog_category')
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250,
-                            unique_for_date='publish')
+    slug = AutoSlugField(populate_from='title', unique_with=['title'])
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE,
                                related_name='blog_posts')
@@ -69,10 +68,10 @@ class Post(CommonBaseModel):
                              self.publish.month,
                              self.publish.day, self.slug])
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Post, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = slugify(self.title)
+    #     super(Post, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('-publish',)

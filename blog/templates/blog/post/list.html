@@ -3,59 +3,87 @@
 {% block title %}ch-info.org{% endblock %}
 {% block content %}
     <h1>CH-INFO.ORG</h1>
-  <div id="sidebar">
-    <h3>Categories</h3>
-    <ul>
-      <li {% if not category %}class="selected"{% endif %}>
-        <a href="{% url "blog:post_list" %}">All</a>
-      </li>
-      {% for c in categories %}
-        <li {% if category.slug == c.slug %}class="selected"
-        {% endif %}>
-          <a href="{{ c.get_absolute_url }}">{{ c.category_name }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
+
 
 
     <div class="container">
             <div class="row">
-              <h1>
-                    {% if category %}{{ category.name }}{% else %}
-                    {% endif %}
-              </h1>
-              {% for post in posts %}
-                <div class="col-md-4">
-                    <h2>
-                        <a href="{{ post.get_absolute_url }}">
-                           <h2>{{ post.title }}</h2>
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}" width="300" height="300">
-                        </a>
 
-                    </h2>
-                    <p class="date">
-                        Published {{ post.publish }} by {{ post.author }}
-                    </p>
-                    {{ post.body|truncatechars:400|linebreaks }}
+                {% if category %}
+                    {% for post in category %}
+                         <div class="col-md-8 col-sm-8">
+                            <h2>
+                                <a href="{{ post.get_absolute_url }}">
+                                   <h2>{{ post.title }}</h2>
+                                    <img src="{{ post.image.url }}" alt="{{ post.title }}" width="300" height="300">
+                                </a>
 
+                            </h2>
+                            <p class="date">
+                                Published {{ post.publish }} by {{ post.author }}
+                            </p>
+                                {{ post.body|truncatechars:400|linebreaks }}
+                        </div>
 
+                    {% endfor %}
+                     <div class="col-md-4 col-sm-4">
+                            {% include 'partials/categories.html' %}
+                     </div>
+
+                {% else %}
+                  {% for post in posts %}
+                    <div class="col-md-8 col-sm-8">
+                        <h2>
+                            <a href="{{ post.get_absolute_url }}">
+                               <h2>{{ post.title }}</h2>
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}" width="300" height="300">
+                            </a>
+
+                        </h2>
+                        <p class="date">
+                            Published {{ post.publish }} by {{ post.author }}
+                        </p>
+                        {{ post.body|markdown|truncatechars:400|linebreaks }}
+
+                    </div>
+
+            {% endfor %}
+
+                    <ul>
+                        <h2> Feeds </h2>
+                        {% for entry in feed.entries %}
+                            <li>
+                                <a href="{{entry.link}}">{{entry.title}}</a>
+                            </li>
+
+                        {% endfor %}
+                    </ul>
+
+             <!-- category file added -->
+              <div class="col-md-4 col-sm-4">
+                    {% include 'partials/categories.html' %}
+              </div>
+
+             {% if is_paginated %}
+                {% include 'pagination.html' with page=posts %}
+
+            {% endif %}
+
+            {% endif %}
+
+        </div>
+    </div>
+        <div class="container">
+            <div class="row">
+                <h6> Recent Articles </h6>
+                <div class="col-md-6">
+                     {% show_latest_posts 3 %}
                 </div>
             </div>
-
-        {% endfor %}
-        <div class="row">
-            <h6> Recent Articles </h6>
-            <div class="col-md-6">
-                 {% show_latest_posts 3 %}
-            </div>
         </div>
+    {# .... **Now the pagination section** .... #}
 
 
-    </div>
-
-
-    {% include "pagination.html" with page=posts %}
 {% endblock %}
 
 
